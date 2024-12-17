@@ -17,9 +17,17 @@ function connectWebSocket() {
         console.error("WebSocket 錯誤: ", error);
     };
 
-    ws.onmessage = (event) => {
-        console.log("伺服器回應: ", event.data);
-    };
+
+    // 接收 WebSocket 回傳的消息
+ws.onmessage = (event) => {
+    if (isWaitingForQueue && event.data.startsWith("ImageQueue:")) {
+        const queueCount = event.data.split(":")[1]; // 提取圖片數量
+        alert(`圖片已上傳！前面還有 ${queueCount} 張圖片在排隊。`);
+        isWaitingForQueue = false; // 重置等待旗標
+    } else {
+        console.log("收到其他消息:", event.data);
+    }
+};
 }
 
 connectWebSocket();
@@ -160,14 +168,5 @@ uploadButton.addEventListener("click", () => {
     }
 });
 
-// 接收 WebSocket 回傳的消息
-ws.onmessage = (event) => {
-    if (isWaitingForQueue && event.data.startsWith("ImageQueue:")) {
-        const queueCount = event.data.split(":")[1]; // 提取圖片數量
-        alert(`圖片已上傳！前面還有 ${queueCount} 張圖片在排隊。`);
-        isWaitingForQueue = false; // 重置等待旗標
-    } else {
-        console.log("收到其他消息:", event.data);
-    }
-};
+
 
