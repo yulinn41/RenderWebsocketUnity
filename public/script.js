@@ -142,17 +142,24 @@ const clearButton = document.getElementById("clear-canvas");
 clearButton.addEventListener("click", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
-const uploadButton = document.getElementById("upload");
-// 上傳功能
+ws.onmessage = (event) => {
+    if (event.data.startsWith("ImageQueue:")) {
+        const queueCount = event.data.split(":")[1]; // 提取圖片數量
+        alert(`圖片已上傳！前面還有 ${queueCount} 張圖片在排隊。`);
+    } else {
+        console.log("收到其他消息:", event.data);
+    }
+};
+
 uploadButton.addEventListener("click", () => {
     if (ws.readyState === WebSocket.OPEN) {
         const imageData = canvas.toDataURL("image/png");
         ws.send(imageData);
-        console.log("圖片數據已發送:", imageData);
-        alert("圖片已上傳！");
+        console.log("圖片數據已發送:", imageData.substring(0, 20));
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     } else {
-        console.log("WebSocket 尚未連接，無法上傳圖片");
         alert("上傳失敗，請檢查伺服器連接！");
     }
 });
+
 
