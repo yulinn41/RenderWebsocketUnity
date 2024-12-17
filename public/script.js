@@ -2,7 +2,8 @@ let ws;
 
 // WebSocket 連接
 function connectWebSocket() {
-    ws = new WebSocket("https://renderwebsocketunity.onrender.com");
+    ws = new WebSocket("wss://renderwebsocketunity.onrender.com");
+
 
     ws.onopen = () => {
         console.log("已連接到伺服器");
@@ -19,15 +20,19 @@ function connectWebSocket() {
 
 
     // 接收 WebSocket 回傳的消息
-ws.onmessage = (event) => {
-    if (isWaitingForQueue && event.data.startsWith("ImageQueue:")) {
-        const queueCount = event.data.split(":")[1]; // 提取圖片數量
-        alert(`圖片已上傳！前面還有 ${queueCount} 張圖片在排隊。`);
-        isWaitingForQueue = false; // 重置等待旗標
-    } else {
-        console.log("收到其他消息:", event.data);
-    }
-};
+    ws.onmessage = (event) => {
+        console.log("接收到伺服器消息:", event.data); // 新增此日誌來確認接收數據
+    
+        if (isWaitingForQueue && event.data.startsWith("ImageQueue:")) {
+            const queueCount = event.data.split(":")[1]; // 提取圖片數量
+            console.log("圖片排隊數量:", queueCount); // 再次確認數據
+            alert(`圖片已上傳！前面還有 ${queueCount} 張圖片在排隊。`);
+            isWaitingForQueue = false; // 重置等待旗標
+        } else {
+            console.log("收到其他消息:", event.data);
+        }
+    };
+    
 }
 
 connectWebSocket();
