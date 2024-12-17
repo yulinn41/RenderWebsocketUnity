@@ -2,7 +2,7 @@ let ws;
 
 // WebSocket 連接
 function connectWebSocket() {
-    ws = new WebSocket("///記得修正");
+    ws = new WebSocket("https://renderwebsocketunity.onrender.com");
 
     ws.onopen = () => {
         console.log("已連接到伺服器");
