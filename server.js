@@ -15,42 +15,65 @@ app.use(express.static(path.join(__dirname, "public")));
 // 創建 HTTP 伺服器，並將 Express 設置為 handler
 const server = http.createServer(app);
 
-// 在 HTTP 伺服器上建立 WebSocket 伺服器
+// 在 HTTP 伺服器上創建 WebSocket 伺服器
 const wss = new WebSocket.Server({ server });
 
 let unitySocket = null; // 儲存 Unity 客戶端的連接
 
-// WebSocket 連接事件
 wss.on("connection", (ws) => {
     console.log("新客戶端已連接");
 
+    // 心跳檢查機制
+    const interval = setInterval(() => {
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.ping(); // 發送心跳信號
+        }
+    }, 25000); // 每 25 秒發送一次心跳
+    
     // 接收消息
     ws.on("message", (message) => {
-        console.log("收到消息:", message);
+        const msgString = message.toString(); // 確保消息轉為字符串
+        console.log("收到消息:", msgString);
 
-        if (message === "Unity") {
-            // Unity 客戶端的識別消息
+        // 如果是圖片數據
+        if (msgString.startsWith("data:image/png;base64,")) {
+            console.log("收到圖片數據");
+            if (unitySocket) {
+                unitySocket.send(msgString); // 將圖片數據轉發給 Unity
+                console.log("圖片數據已發送到 Unity");
+            } else {
+                ws.send("無法轉發圖片數據，Unity 未連接");
+                console.log("Unity 未連接，無法轉發圖片數據");
+            }
+        } else if (msgString === "Unity") {
+            // Unity 客戶端連接
             console.log("Unity 客戶端已認證");
-            unitySocket = ws; // 儲存 Unity 客戶端的連接
-            ws.send("已成功連接到伺服器");
+            unitySocket = ws; // 保存 Unity 連接
+            ws.send("Unity 已成功連接到伺服器");
         } else if (unitySocket && ws !== unitySocket) {
-            // 其他客戶端的消息轉發給 Unity
-            unitySocket.send(message);
-            console.log("消息已轉發到 Unity");
+            // 普通消息轉發到 Unity
+            unitySocket.send(msgString);
+            console.log("消息已轉發到 Unity: ", msgString);
         } else {
-            // 回應其他客戶端的消息
-            ws.send(`伺服器回應: ${message}`);
+            // 返回普通回應
+            ws.send(`伺服器回應: ${msgString}`);
+            console.log("已回應消息: ", `伺服器回應: ${msgString}`);
         }
     });
 
-    // 客戶端斷開連接處理
+    // 客戶端斷開處理
     ws.on("close", () => {
+        clearInterval(interval); // 清除心跳定時器
         if (ws === unitySocket) {
             console.log("Unity 客戶端已斷開");
-            unitySocket = null; // 清除 Unity 客戶端連接
+            unitySocket = null; // 清除 Unity 連接
         } else {
             console.log("普通客戶端已斷開");
         }
+    });
+
+    ws.on("error", (err) => {
+        console.error("WebSocket 錯誤:", err);
     });
 });
 
