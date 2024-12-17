@@ -142,7 +142,7 @@ const clearButton = document.getElementById("clear-canvas");
 clearButton.addEventListener("click", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
-
+const uploadButton = document.getElementById("upload");
 // 上傳功能
 uploadButton.addEventListener("click", () => {
     if (ws.readyState === WebSocket.OPEN) {
