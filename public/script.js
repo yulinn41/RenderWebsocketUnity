@@ -150,7 +150,7 @@ ws.onmessage = (event) => {
         console.log("收到其他消息:", event.data);
     }
 };
-
+const uploadButton =document.getElementById("upload");
 uploadButton.addEventListener("click", () => {
     if (ws.readyState === WebSocket.OPEN) {
         const imageData = canvas.toDataURL("image/png");
