@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>南投光語祭</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="snowstorm.js"></script>
+<script type="text/javascript">
+snowStorm.snowColor = '#FFFFFF'; // blue-ish snow!?
+snowStorm.flakesMaxActive = 50;  // show more snow on screen at once
+snowStorm.useTwinkleEffect = true; // let the snow flicker in and out of view
+</script>
+    <style>
+       
+    </style>
+</head>
+
+<body>
+    <div id="text">
+        <img id="text-img" src="pic/text.webp" onerror="this.onerror=null; this.src='pic/text.png';" alt="備用圖片">
+    </div>
+    <p class="subtitle">點亮心願燈籠，迎向美好2025！</p>
+
+    <div id="drawing-bar">
+        <!-- 選擇顏色按鈕 -->
+        <div id="toolbar">
+            <button class="color-button" id="eraser" style="background-color: #FFFFFF;" data-color="#FFFFFF"></button>
+            <button class="color-button" style="background-color: #808080;" data-color="#808080"></button>
+            <button class="color-button" style="background-color: #ec7474;" data-color="#ec7474"></button>
+            <button class="color-button" style="background-color: #1d7f8c;" data-color="#1d7f8c"></button>
+            <button class="color-button" style="background-color: #b0fcf9;" data-color="#b0fcf9"></button>
+            <button class="color-button" style="background-color: #d2a100;" data-color="#d2a100"></button>
+            <button class="color-button" style="background-color: #6b2f1c;" data-color="#6b2f1c"></button>
+            <button class="color-button" style="background-color: #133f3f;" data-color="#133f3f"></button>
+            <button class="color-button" style="background-color: #000000;" data-color="#000000"></button>
+
+ <!-- 新增清除按鈕 -->
+ <button class="clear-button" id="clear-canvas">重新繪製</button>
+        </div>
+
+        <!-- 疊加圖片 -->
+        <div id="canvas-wrapper">
+            <!-- 疊加圖片 -->
+            <img id="overlay-image" src="pic/BlackBG.png" alt="Overlay Image">
+
+            <!-- 繪圖區域 -->
+            <canvas id="myCanvas"></canvas>
+        </div>
+        <!-- 上傳圖片按鈕 -->     
+        <button id="upload">上傳圖片</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

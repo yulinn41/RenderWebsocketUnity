@@ -1,0 +1,396 @@
+html,
+body {
+    height: 100%;
+    /* 確保頁面填滿視窗 */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* 滿足全螢幕高度 */
+    overflow: hidden;
+    /* 禁止滾動 */
+    background-color: #000000;
+    /* 預設背景色避免空白 */
+    background-image: url('pic/Big_1920x1080 (2).webp');
+    /* 預設背景圖片 */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#text {
+    height: 15vh;
+    /* 使用視窗高度的 15% */
+    max-height: 600px;
+    /* 限制最大高度 */
+    min-height: 15vh;
+    /* 使用視窗高度的最小值，避免過小 */
+    max-width: 1000px;
+    /* 限制最大寬度 */
+    width: 100%;
+    /* 自適應父容器寬度 */
+    margin: 1rem auto;
+    /* 水平居中並增加間距 */
+    display: flex;
+    /* 使用 Flexbox 排版 */
+    justify-content: center;
+    /* 水平居中 */
+    align-items: center;
+    /* 垂直居中 */
+    overflow: hidden;
+    /* 隱藏超出的內容 */
+    position: relative;
+    /* 確保子元素相對於容器定位 */
+}
+
+#text-img {
+    max-height: 100%;
+    /* 圖片高度不超過容器 */
+    max-width: 100%;
+    /* 圖片寬度不超過容器 */
+    width: auto;
+    /* 保持比例縮放 */
+    height: auto;
+    /* 保持比例縮放 */
+    display: block;
+    /* 防止圖片周圍留白 */
+    object-fit: contain;
+    /* 保持圖片完整顯示，避免裁切 */
+    position: absolute;
+    /* 確保圖片完全填充容器 */
+    top: 50%;
+    /* 使圖片中心垂直對齊 */
+    left: 50%;
+    /* 使圖片中心水平對齊 */
+    transform: translate(-50%, -50%);
+    /* 調整圖片位置到中心 */
+}
+
+
+p.subtitle {
+    height: 3vh;
+    /* 使用視窗高度的 15% */
+    font-size: 1.2rem;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: -0.8rem;
+     /* 添加文字陰影 */
+       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+#drawing-bar {
+    height: 82vh;
+    width: 100%;
+    max-width: 700px;
+
+    position: relative;
+    /* 開啟相對定位 */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* 元素從容器頂部開始 */
+    align-items: center;
+    padding: 1rem;
+    /* 添加內部邊距 */
+    gap: 2rem;
+}
+
+
+#toolbar {
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* 支援多排排列 */
+
+
+    /* 預設背景色避免空白 */
+}
+
+.color-button {
+    width: calc(5vw);
+    /* 隨螢幕尺寸調整 */
+    height: calc(5vw);
+    max-width: 60px;
+    /* 限制最大尺寸 */
+    max-height: 60px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.2s, border 0.2s;
+    position: relative;
+    border: 2px solid transparent;
+    /* 預設透明邊框 */
+    border: 2px solid rgb(255, 255, 255);
+}
+
+
+
+.color-button.active {
+    border: 10px solid white;
+}
+
+.color-button.active {
+    opacity: 1;
+}
+#eraser {
+    border: 2px solid #808080;
+    /* 為橡皮擦按鈕添加黃色邊框 */
+}
+#eraser.active {
+    border: 10px solid #808080;
+    /* 為橡皮擦按鈕添加黃色邊框 */
+}
+
+ /* 新增清除按鈕樣式 */
+ .clear-button {
+    width: calc(10vw); /* 是 color-button 的兩倍 */
+    height: calc(5vw);
+    max-width: 120px;
+    max-height: 60px;
+    background-color: #df5500;
+    color: white;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid rgb(255, 255, 255);
+}
+
+.clear-button:hover {
+    background-color: #be4622;
+    
+}
+#upload:hover {
+    background-color:  #be4622;
+}
+#canvas-wrapper {
+    position: relative;
+    /* 開啟相對定位，作為子元素的參考點 */
+    width: 80vw;
+    /* 寬度為視窗的 70% */
+    height: 80vw;
+    /* 高度保持正方形 */
+    max-width: 600px;
+    /* 最大寬度 */
+    max-height: 600px;
+    /* 最大高度 */
+    /* 最大高度 */
+    margin: -1rem 0;
+    /*order: 2px solid #ffffff;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 確保子元素在容器內居中 */
+    aspect-ratio: 1;
+    /* 保持正方形比例 */
+    user-select: none;
+    /* 禁止文字選取 */
+    -webkit-user-select: none;
+    /* 禁止 Webkit 瀏覽器選取 */
+    -moz-user-select: none;
+    /* 禁止 Firefox 瀏覽器選取 */
+    -ms-user-select: none;
+    /* 禁止 IE 瀏覽器選取 */
+    -o-user-select: none;
+    /* 禁止舊版 Opera 瀏覽器選取 */
+
+}
+
+#myCanvas {
+    position: absolute;
+    /* 絕對定位，基於 #canvas-wrapper */
+    top: 0;
+    /* 與父容器的頂部對齊 */
+    left: 0;
+    /* 與父容器的左側對齊 */
+    width: 100%;
+    /* 填滿父容器 */
+    height: 100%;
+    /* 填滿父容器 */
+    background-color: rgb(0, 0, 0);
+    z-index: 1;
+    pointer-events: auto;
+    /* 確保畫布可以互動 */
+}
+
+#overlay-image {
+    position: absolute;
+    /* 絕對定位，基於 #canvas-wrapper */
+    top: 0;
+    /* 與父容器的頂部對齊 */
+    left: 0;
+    /* 與父容器的左側對齊 */
+    width: 100%;
+    /* 填滿父容器 */
+    height: 100%;
+    /* 填滿父容器 */
+    pointer-events: none;
+    /* 確保 overlay 不影響互動 */
+    z-index: 2;
+}
+
+#upload {
+    background-color:  #df5500;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    /* 縮小字體使畫面更緊湊 */
+    align-self: center;
+    /* 保證按鈕居中對齊 */
+    margin: 1rem;
+}
+
+
+
+/*螢幕寬度大於等於 1201px*/
+@media (min-width: 1201px) {
+
+    p.subtitle {
+        font-size: 1.2rem;
+    }
+
+    #drawing-bar {
+        gap: 1rem;
+        /* 調整內部元素的間距 */
+    }
+
+    /* 調整按鈕大小 */
+    #toolbar .color-button {
+        width: 40px;
+        /* 修改按鈕寬度 */
+        height: 40px;
+        /* 修改按鈕高度 */
+        font-size: 0.8rem;
+        /* 調整按鈕文字大小 */
+        margin-bottom: 1rem;
+    }
+    .clear-button{
+        width: 80px;
+        /* 修改按鈕寬度 */
+        height: 40px;
+    }
+    /* 調整 Canvas 的大小 */
+    #canvas-wrapper {
+        width: 70vw;
+        /* 根據需求調整寬度 */
+        height: 70vw;
+        /* 保持正方形 */
+        max-width: 400px;
+        /* 限制最大寬度 */
+        max-height: 400px;
+        /* 限制最大高度 */
+    }
+
+    #myCanvas,
+    #overlay-image {
+        width: 100%;
+        /* 填滿 canvas-wrapper */
+        height: 100%;
+        /* 填滿 canvas-wrapper */
+    }
+
+    /* 調整上傳按鈕大小 */
+    #upload {
+        font-size: 1rem;
+        /* 調整按鈕文字大小 */
+        padding: 10px 20px;
+        /* 調整按鈕內邊距 */
+    }
+}
+
+@media (max-width: 1200px) {
+
+    p.subtitle {
+        font-size: 1.2rem;
+    }
+
+    #drawing-bar {
+        gap: 1rem;
+        /* 調整內部元素的間距 */
+    }
+
+    /* 調整按鈕大小 */
+    #toolbar .color-button {
+        width: 40px;
+        /* 修改按鈕寬度 */
+        height: 40px;
+        /* 修改按鈕高度 */
+        font-size: 0.8rem;
+        /* 調整按鈕文字大小 */
+        margin-bottom: 1rem;
+    }
+    .clear-button{
+        width: 80px;
+        /* 修改按鈕寬度 */
+        height: 40px;
+    }
+    /* 調整 Canvas 的大小 */
+    #canvas-wrapper {
+        width: 70vw;
+        /* 根據需求調整寬度 */
+        height: 70vw;
+        /* 保持正方形 */
+        max-width: 300px;
+        /* 限制最大寬度 */
+        max-height: 300px;
+        /* 限制最大高度 */
+    }
+
+    #myCanvas,
+    #overlay-image {
+        width: 100%;
+        /* 填滿 canvas-wrapper */
+        height: 100%;
+        /* 填滿 canvas-wrapper */
+    }
+
+    /* 調整上傳按鈕大小 */
+    #upload {
+        font-size: 1rem;
+        /* 調整按鈕文字大小 */
+        padding: 10px 20px;
+        /* 調整按鈕內邊距 */
+    }
+
+}
+
+/*屏幕宽度小于或等于 768px*/
+@media (max-width: 768px) {
+
+    p.subtitle {
+        font-size: 1.2rem;
+    }
+
+    #upload {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    #drawing-bar {
+        transform: scale(1);
+        /* 縮小比例 */
+    }
+}
+
+@media (max-width: 480px) {
+    p.subtitle {
+        font-size: 1rem;
+    }
+
+    #drawing-bar {
+        transform: scale(1);
+        /* 進一步縮小比例 */
+    }
+}
