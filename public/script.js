@@ -142,24 +142,32 @@ const clearButton = document.getElementById("clear-canvas");
 clearButton.addEventListener("click", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
-ws.onmessage = (event) => {
-    if (event.data.startsWith("ImageQueue:")) {
-        const queueCount = event.data.split(":")[1]; // 提取圖片數量
-        alert(`圖片已上傳！前面還有 ${queueCount} 張圖片在排隊。`);
-    } else {
-        console.log("收到其他消息:", event.data);
-    }
-};
-const uploadButton =document.getElementById("upload");
+let isWaitingForQueue = false; // 用來確認是否在等待伺服器的圖片數量回傳
+
+const uploadButton = document.getElementById("upload");
+
+// 點擊按鈕事件
 uploadButton.addEventListener("click", () => {
     if (ws.readyState === WebSocket.OPEN) {
         const imageData = canvas.toDataURL("image/png");
-        ws.send(imageData);
+        ws.send(imageData); // 發送圖片數據
         console.log("圖片數據已發送:", imageData.substring(0, 20));
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        isWaitingForQueue = true; // 設定為等待伺服器回傳圖片數量
     } else {
         alert("上傳失敗，請檢查伺服器連接！");
     }
 });
 
+// 接收 WebSocket 回傳的消息
+ws.onmessage = (event) => {
+    if (isWaitingForQueue && event.data.startsWith("ImageQueue:")) {
+        const queueCount = event.data.split(":")[1]; // 提取圖片數量
+        alert(`圖片已上傳！前面還有 ${queueCount} 張圖片在排隊。`);
+        isWaitingForQueue = false; // 重置等待旗標
+    } else {
+        console.log("收到其他消息:", event.data);
+    }
+};
 
