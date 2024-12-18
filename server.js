@@ -33,9 +33,9 @@ wss.on("connection", (ws) => {
     // 接收消息
     ws.on("message", (message) => {
         const msgString = message.toString(); // 確保消息轉為字符串
-        const shortMsgString = message.substring(0, 20);
+        const shortMsgString = event.data.length > 20 ? event.data.substring(0, 20) : event.data;
         console.log("收到消息:", shortMsgString);
-
+        
         // 如果是圖片數據
         if (msgString.startsWith("data:image/png;base64,")) {
             console.log("收到圖片數據");
