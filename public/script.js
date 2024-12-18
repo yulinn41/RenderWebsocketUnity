@@ -30,6 +30,12 @@ function connectWebSocket() {
         } else if (event.data === "UnityDisconnected") {
             unityConnected = false;
             console.log("Unity 已斷開");
+        }  else if (event.data.startsWith("ImageQueue:")) {
+            const queueCount = event.data.split(":")[1];
+            console.log("圖片排隊數量:", queueCount);
+
+            // 更新 HTML 顯示圖片排隊數量
+            document.getElementById("queue-status").innerText = `排隊圖片數量：${queueCount}`;
         } else {
             console.log("其他消息:", event.data);
         }
