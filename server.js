@@ -30,27 +30,24 @@ wss.on("connection", (ws) => {
         }
     }, 25000); // 每 25 秒發送一次心跳
 
-    // 接收消息
     ws.on("message", (message) => {
-        const msgString = message.toString(); // 確保消息轉為字符串
-    
+        const msgString = message.toString();
+
         // 獲取短消息（處理長度小於 20 的情況）
         const shortMsgString = msgString.length > 20 ? msgString.substring(0, 20) : msgString;
         console.log("收到消息:", shortMsgString);
-    
-        // 如果是圖片數據
+
+        // 圖片數據處理
         if (msgString.startsWith("data:image/png;base64,")) {
             console.log("收到圖片數據");
-    
+
             if (unitySocket) {
-                // 將圖片發送給 Unity 並等待回傳圖片數量
-                unitySocket.send(msgString);
+                unitySocket.send(msgString); // 將圖片數據發送給 Unity
                 console.log("圖片數據已發送到 Unity");
-    
-                // 假設 Unity 回傳的格式是 `ImageQueue:<數量>`
+
                 unitySocket.once("message", (unityMessage) => {
                     if (unityMessage.toString().startsWith("ImageQueue:")) {
-                        ws.send(unityMessage.toString()); // 只回傳給當前客戶端
+                        ws.send(unityMessage.toString()); // 將圖片排隊數量回傳給當前客戶端
                         console.log("圖片排隊數量已回傳給客戶端:", unityMessage.toString());
                     }
                 });
@@ -58,29 +55,38 @@ wss.on("connection", (ws) => {
                 ws.send("無法轉發圖片數據，Unity 未連接");
                 console.log("Unity 未連接，無法轉發圖片數據");
             }
-        } else if (msgString === "Unity") {
-            // Unity 客戶端連接
+        }
+        // Unity 客戶端連接
+        else if (msgString === "Unity") {
             console.log("Unity 客戶端已認證");
             unitySocket = ws; // 保存 Unity 連接
             ws.send("Unity 已成功連接到伺服器");
-        } else if (unitySocket && ws !== unitySocket) {
-            // 普通消息轉發到 Unity
+
+            // 廣播 Unity 已連接狀態
+            broadcastToClients("UnityConnected");
+        }
+        // 普通消息轉發到 Unity
+        else if (unitySocket && ws !== unitySocket) {
             unitySocket.send(msgString);
             console.log("消息已轉發到 Unity: ", msgString);
-        }else {
-            // 返回普通回應
+        }
+        // 處理其他消息
+        else {
             ws.send(`伺服器回應: ${msgString}`);
             console.log("已回應消息: ", `伺服器回應: ${msgString}`);
         }
     });
-    
 
     // 客戶端斷開處理
     ws.on("close", () => {
         clearInterval(interval); // 清除心跳定時器
+
         if (ws === unitySocket) {
             console.log("Unity 客戶端已斷開");
-            unitySocket = null; // 清除 Unity 連接
+            unitySocket = null;
+
+            // 廣播 Unity 已斷開狀態
+            broadcastToClients("UnityDisconnected");
         } else {
             console.log("普通客戶端已斷開");
         }
@@ -92,7 +98,14 @@ wss.on("connection", (ws) => {
     });
 });
 
-
+// 廣播消息給所有客戶端
+function broadcastToClients(message) {
+    wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(message);
+        }
+    });
+}
 
 // 啟動伺服器
 server.listen(PORT, () => {

@@ -23,21 +23,23 @@ function connectWebSocket() {
     // 接收 WebSocket 回傳的消息
     ws.onmessage = (event) => {
         console.log("接收到伺服器消息:", event.data);
-
-        // 檢查 Unity 是否連接
-        if (event.data === "Unity 已成功連接到伺服器") {
-            unityConnected = true; // 標記 Unity 已連接
-        }
-
-        if (isWaitingForQueue && event.data.startsWith("ImageQueue:")) {
+    
+        if (event.data === "UnityConnected") {
+            unityConnected = true;
+            console.log("Unity 已連接");
+        } else if (event.data === "UnityDisconnected") {
+            unityConnected = false;
+            console.log("Unity 已斷開");
+        } else if (isWaitingForQueue && event.data.startsWith("ImageQueue:")) {
             const queueCount = event.data.split(":")[1];
             console.log("圖片排隊數量:", queueCount);
             document.getElementById("queue-status").innerText = `排隊圖片數量：${queueCount}`;
-            isWaitingForQueue = false; // 重置等待旗標
+            isWaitingForQueue = false;
         } else {
             console.log("收到其他消息:", event.data);
         }
     };
+    
 }
 
 connectWebSocket();
