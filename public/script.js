@@ -4,7 +4,6 @@ let ws;
 function connectWebSocket() {
     ws = new WebSocket("wss://renderwebsocketunity.onrender.com");
 
-
     ws.onopen = () => {
         console.log("已連接到伺服器");
     };
@@ -18,23 +17,22 @@ function connectWebSocket() {
         console.error("WebSocket 錯誤: ", error);
     };
 
-
     // 接收 WebSocket 回傳的消息
     ws.onmessage = (event) => {
-        console.log("接收到伺服器消息:", event.data); // 新增此日誌來確認接收數據
-    
+        console.log("接收到伺服器消息:", event.data); // 確認接收數據
+
         if (isWaitingForQueue && event.data.startsWith("ImageQueue:")) {
             const queueCount = event.data.split(":")[1]; // 提取圖片數量
-            console.log("圖片排隊數量:", queueCount); // 再次確認數據
+            console.log("圖片排隊數量:", queueCount);
             alert(`圖片已上傳！前面還有 ${queueCount} 張圖片在排隊。`);
             isWaitingForQueue = false; // 重置等待旗標
         } else {
             console.log("收到其他消息:", event.data);
         }
     };
-    
 }
 
+// 初始化 WebSocket 連接
 connectWebSocket();
 
 
@@ -155,7 +153,7 @@ const clearButton = document.getElementById("clear-canvas");
 clearButton.addEventListener("click", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
-let isWaitingForQueue = false; // 用來確認是否在等待伺服器的圖片數量回傳
+let isWaitingForQueue = false; // 確保是否在等待伺服器回應的狀態
 
 const uploadButton = document.getElementById("upload");
 
@@ -165,13 +163,9 @@ uploadButton.addEventListener("click", () => {
         const imageData = canvas.toDataURL("image/png");
         ws.send(imageData); // 發送圖片數據
         console.log("圖片數據已發送:", imageData.substring(0, 20));
-
+        isWaitingForQueue = true; // 等待伺服器回傳圖片數量
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        isWaitingForQueue = true; // 設定為等待伺服器回傳圖片數量
     } else {
         alert("上傳失敗，請檢查伺服器連接！");
     }
 });
-
-
-
