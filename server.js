@@ -49,6 +49,8 @@ wss.on("connection", (ws) => {
                     if (unityMessage.toString().startsWith("ImageQueue:")) {
                         ws.send(unityMessage.toString()); // 只回傳給當前客戶端
                         console.log("圖片排隊數量已回傳給客戶端:", unityMessage.toString());
+                        // 廣播圖片排隊數量給所有客戶端
+                        broadcastToClients(unityMessage.toString());
                     }
                 });
             } else {
