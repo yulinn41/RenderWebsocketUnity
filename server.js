@@ -33,18 +33,20 @@ wss.on("connection", (ws) => {
     // 接收消息
     ws.on("message", (message) => {
         const msgString = message.toString(); // 確保消息轉為字符串
-        const shortMsgString = event.data.length > 20 ? event.data.substring(0, 20) : event.data;
+    
+        // 獲取短消息（處理長度小於 20 的情況）
+        const shortMsgString = msgString.length > 20 ? msgString.substring(0, 20) : msgString;
         console.log("收到消息:", shortMsgString);
-        
+    
         // 如果是圖片數據
         if (msgString.startsWith("data:image/png;base64,")) {
             console.log("收到圖片數據");
-
+    
             if (unitySocket) {
                 // 將圖片發送給 Unity 並等待回傳圖片數量
                 unitySocket.send(msgString);
                 console.log("圖片數據已發送到 Unity");
-
+    
                 // 假設 Unity 回傳的格式是 `ImageQueue:<數量>`
                 unitySocket.once("message", (unityMessage) => {
                     if (unityMessage.toString().startsWith("ImageQueue:")) {
@@ -65,19 +67,13 @@ wss.on("connection", (ws) => {
             // 普通消息轉發到 Unity
             unitySocket.send(msgString);
             console.log("消息已轉發到 Unity: ", msgString);
-        } else if (msgString.startsWith("ImageQueue:")) {
-            // 如果 Unity 傳來圖片數量，轉發給所有連接的網頁客戶端（保留這個功能可選）
-            wss.clients.forEach((client) => {
-                if (client.readyState === WebSocket.OPEN) {
-                    client.send(msgString); // 廣播圖片數量
-                }
-            });
-        } else {
+        }else {
             // 返回普通回應
             ws.send(`伺服器回應: ${msgString}`);
             console.log("已回應消息: ", `伺服器回應: ${msgString}`);
         }
     });
+    
 
     // 客戶端斷開處理
     ws.on("close", () => {
