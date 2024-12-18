@@ -42,15 +42,14 @@ wss.on("connection", (ws) => {
             console.log("收到圖片數據");
 
             if (unitySocket) {
-                unitySocket.send(msgString); // 將圖片數據發送給 Unity
+                unitySocket.send(msgString); // 將圖片數據發送到 Unity
                 console.log("圖片數據已發送到 Unity");
 
                 unitySocket.once("message", (unityMessage) => {
                     if (unityMessage.toString().startsWith("ImageQueue:")) {
-                        ws.send(unityMessage.toString()); // 只回傳給當前客戶端
+                        ws.send(unityMessage.toString()); // 回傳給當前客戶端
                         console.log("圖片排隊數量已回傳給客戶端:", unityMessage.toString());
-                        // 廣播圖片排隊數量給所有客戶端
-                        broadcastToClients(unityMessage.toString());
+                        broadcastToClients(unityMessage.toString()); // 廣播給所有客戶端
                     }
                 });
             } else {
@@ -62,10 +61,7 @@ wss.on("connection", (ws) => {
         else if (msgString === "Unity") {
             console.log("Unity 客戶端已認證");
             unitySocket = ws; // 保存 Unity 連接
-            ws.send("Unity 已成功連接到伺服器");
-
-            // 廣播 Unity 已連接狀態
-            broadcastToClients("UnityConnected");
+            broadcastToClients("UnityConnected"); // 廣播 Unity 已連接
         }
         // 處理其他消息
         else {
@@ -94,6 +90,7 @@ wss.on("connection", (ws) => {
         console.error("WebSocket 錯誤:", err);
     });
 });
+
 
 // 廣播消息給所有客戶端
 function broadcastToClients(message) {

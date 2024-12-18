@@ -23,26 +23,77 @@ function connectWebSocket() {
     // 接收 WebSocket 回傳的消息
     ws.onmessage = (event) => {
         console.log("接收到伺服器消息:", event.data);
-
+    
         if (event.data === "UnityConnected") {
             unityConnected = true;
             console.log("Unity 已連接");
         } else if (event.data === "UnityDisconnected") {
             unityConnected = false;
             console.log("Unity 已斷開");
-        }  else if (event.data.startsWith("ImageQueue:")) {
+        } else if (event.data.startsWith("ImageQueue:")) {
             const queueCount = event.data.split(":")[1];
             console.log("圖片排隊數量:", queueCount);
-
+    
             // 更新 HTML 顯示圖片排隊數量
             document.getElementById("queue-status").innerText = `排隊圖片數量：${queueCount}`;
         } else {
             console.log("其他消息:", event.data);
         }
     };
+    
 }
 
 connectWebSocket();
+// 點擊按鈕事件
+const uploadButton = document.getElementById("upload");
+
+// 點擊按鈕事件
+uploadButton.addEventListener("click", () => {
+    if (isCanvasBlank(canvas)) {
+        alert("你還沒有畫圖，請先畫圖再上傳！");
+        return; // 阻止繼續執行
+    }
+
+    if (ws.readyState !== WebSocket.OPEN) {
+        alert("上傳失敗，請檢查伺服器連接！");
+        return; // 阻止繼續執行
+    }
+
+    // 檢查 Unity 是否連接
+    if (!unityConnected) {
+        alert("上傳失敗，Unity 尚未連接！");
+        return; // 阻止繼續執行
+    }
+
+    // 創建一個標準化的 canvas
+    const resizedCanvas = document.createElement("canvas");
+    const resizedCtx = resizedCanvas.getContext("2d");
+
+    // 設定標準化尺寸
+    const targetSize = 600; // 固定寬高
+    resizedCanvas.width = targetSize;
+    resizedCanvas.height = targetSize;
+
+    // 將原始畫布內容繪製到標準化 canvas
+    resizedCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
+
+    // 獲取標準化 canvas 的圖片數據
+    const imageData = resizedCanvas.toDataURL("image/png");
+    ws.send(imageData); // 發送標準化圖片數據
+
+    console.log("標準化圖片數據已發送:", imageData.substring(0, 20));
+    isWaitingForQueue = true; // 等待伺服器回傳圖片數量
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空原始畫布
+});
+
+// 工具函數：檢查 canvas 是否為空
+function isCanvasBlank(canvas) {
+    const blank = document.createElement("canvas"); // 建立一個空白的 canvas
+    blank.width = canvas.width;
+    blank.height = canvas.height;
+    return canvas.toDataURL() === blank.toDataURL(); // 比較 dataURL，判斷是否為空
+}
 
 
 
@@ -167,53 +218,3 @@ clearButton.addEventListener("click", () => {
 let isWaitingForQueue = false; // 確保是否在等待伺服器回應的狀態
 
 
-// 點擊按鈕事件
-const uploadButton = document.getElementById("upload");
-
-// 點擊按鈕事件
-uploadButton.addEventListener("click", () => {
-    if (isCanvasBlank(canvas)) {
-        alert("你還沒有畫圖，請先畫圖再上傳！");
-        return; // 阻止繼續執行
-    }
-
-    if (ws.readyState !== WebSocket.OPEN) {
-        alert("上傳失敗，請檢查伺服器連接！");
-        return; // 阻止繼續執行
-    }
-
-    // 檢查 Unity 是否連接
-    if (!unityConnected) {
-        alert("上傳失敗，Unity 尚未連接！");
-        return; // 阻止繼續執行
-    }
-
-    // 創建一個標準化的 canvas
-    const resizedCanvas = document.createElement("canvas");
-    const resizedCtx = resizedCanvas.getContext("2d");
-
-    // 設定標準化尺寸
-    const targetSize = 600; // 固定寬高
-    resizedCanvas.width = targetSize;
-    resizedCanvas.height = targetSize;
-
-    // 將原始畫布內容繪製到標準化 canvas
-    resizedCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
-
-    // 獲取標準化 canvas 的圖片數據
-    const imageData = resizedCanvas.toDataURL("image/png");
-    ws.send(imageData); // 發送標準化圖片數據
-
-    console.log("標準化圖片數據已發送:", imageData.substring(0, 20));
-    isWaitingForQueue = true; // 等待伺服器回傳圖片數量
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空原始畫布
-});
-
-// 工具函數：檢查 canvas 是否為空
-function isCanvasBlank(canvas) {
-    const blank = document.createElement("canvas"); // 建立一個空白的 canvas
-    blank.width = canvas.width;
-    blank.height = canvas.height;
-    return canvas.toDataURL() === blank.toDataURL(); // 比較 dataURL，判斷是否為空
-}
