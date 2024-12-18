@@ -47,7 +47,7 @@ wss.on("connection", (ws) => {
 
                 unitySocket.once("message", (unityMessage) => {
                     if (unityMessage.toString().startsWith("ImageQueue:")) {
-                        ws.send(unityMessage.toString()); // 將圖片排隊數量回傳給當前客戶端
+                        ws.send(unityMessage.toString()); // 只回傳給當前客戶端
                         console.log("圖片排隊數量已回傳給客戶端:", unityMessage.toString());
                     }
                 });
@@ -64,11 +64,6 @@ wss.on("connection", (ws) => {
 
             // 廣播 Unity 已連接狀態
             broadcastToClients("UnityConnected");
-        }
-        // 普通消息轉發到 Unity
-        else if (unitySocket && ws !== unitySocket) {
-            unitySocket.send(msgString);
-            console.log("消息已轉發到 Unity: ", msgString);
         }
         // 處理其他消息
         else {
