@@ -161,7 +161,13 @@ let isWaitingForQueue = false; // 確保是否在等待伺服器回應的狀態
 const uploadButton = document.getElementById("upload");
 
 // 點擊按鈕事件
+// 點擊按鈕事件
 uploadButton.addEventListener("click", () => {
+    if (isCanvasBlank(canvas)) {
+        alert("你還沒有畫圖，請先畫圖再上傳！");
+        return; // 阻止繼續執行
+    }
+
     if (ws.readyState === WebSocket.OPEN) {
         const imageData = canvas.toDataURL("image/png");
         ws.send(imageData); // 發送圖片數據
@@ -172,3 +178,11 @@ uploadButton.addEventListener("click", () => {
         alert("上傳失敗，請檢查伺服器連接！");
     }
 });
+
+// 工具函數：檢查 canvas 是否為空
+function isCanvasBlank(canvas) {
+    const blank = document.createElement("canvas"); // 建立一個空白的 canvas
+    blank.width = canvas.width;
+    blank.height = canvas.height;
+    return canvas.toDataURL() === blank.toDataURL(); // 比較 dataURL，判斷是否為空
+}
