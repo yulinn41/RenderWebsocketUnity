@@ -41,7 +41,7 @@ wss.on("connection", (ws) => {
         if (msgString.startsWith("data:image/png;base64,")) {
             console.log("收到圖片數據");
 
-            if (unitySocket) {
+            if (unitySocket&& unitySocket.readyState === WebSocket.OPEN) {
                 unitySocket.send(msgString); // 將圖片數據發送到 Unity
                 console.log("圖片數據已發送到 Unity");
 
