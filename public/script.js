@@ -26,10 +26,10 @@ function connectWebSocket() {
     
         if (event.data === "UnityConnected") {
             unityConnected = true;
-            console.log("Unity 已連接");
+            console.log("互動端口 已連接");
         } else if (event.data === "UnityDisconnected") {
             unityConnected = false;
-            console.log("Unity 已斷開");
+            console.log("互動端口 已斷開");
         } else if (event.data.startsWith("ImageQueue:")) {
             const queueCount = event.data.split(":")[1];
             console.log("圖片排隊數量:", queueCount);
@@ -58,13 +58,12 @@ uploadButton.addEventListener("click", () => {
         alert("上傳失敗，請檢查伺服器連接！");
         return; // 阻止繼續執行
     }
-/*
+
     // 檢查 Unity 是否連接
     if (!unityConnected) {
-        alert("上傳失敗，Unity 尚未連接！");
+        alert("上傳失敗，遊戲尚未連接！");
         return; // 阻止繼續執行
-    }
-*/
+}
     // 創建一個標準化的 canvas
     const resizedCanvas = document.createElement("canvas");
     const resizedCtx = resizedCanvas.getContext("2d");
