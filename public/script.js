@@ -36,6 +36,8 @@ function connectWebSocket() {
     
             // 更新 HTML 顯示圖片排隊數量
             document.getElementById("queue-status").innerText = `排隊圖片數量：${queueCount}`;
+        // 顯示排隊數量的 alert
+        alert(`圖片已上傳！當前排隊數量：${queueCount}`);
         } else {
             console.log("其他消息:", event.data);
         }
@@ -82,7 +84,7 @@ uploadButton.addEventListener("click", () => {
 
     console.log("標準化圖片數據已發送:", imageData.substring(0, 20));
     isWaitingForQueue = true; // 等待伺服器回傳圖片數量
-
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空原始畫布
 });
 
