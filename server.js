@@ -29,10 +29,10 @@ wss.on("connection", (ws) => {
             ws.ping(); // 發送心跳信號
         }
     }, 25000); // 每 25 秒發送一次心跳
-    
+
             // 當新的網頁客戶端連接時，發送 Unity 的當前連接狀態
             if (unitySocket && unitySocket.readyState === WebSocket.OPEN) {
-                ws.send("UnityConnected");
+                ws.send("InteractiveConnected");
             }
     ws.on("message", (message) => {
         const msgString = message.toString();
@@ -46,7 +46,7 @@ wss.on("connection", (ws) => {
         if (msgString === "Unity") {
             console.log("Unity 客戶端已認證");
             unitySocket = ws; // 保存 Unity 連接
-            broadcastToClients("UnityConnected"); // 廣播 Unity 已連接
+            broadcastToClients("InteractiveConnected"); // 廣播 Unity 已連接
         }
         // 圖片數據處理
         else if (msgString.startsWith("data:image/png;base64,")) {
@@ -60,7 +60,7 @@ wss.on("connection", (ws) => {
                     if (unityMessage.toString().startsWith("ImageQueue:")) {
                         ws.send(unityMessage.toString()); // 回傳給當前客戶端
                         console.log("圖片排隊數量已回傳給客戶端:", unityMessage.toString());
-                        broadcastToClients(unityMessage.toString()); // 廣播給所有客戶端
+                        /*broadcastToClients(unityMessage.toString()); // 廣播給所有客戶端*/
                     }
                 });
             } else {

@@ -24,7 +24,7 @@ function connectWebSocket() {
     ws.onmessage = (event) => {
         console.log("接收到伺服器消息:", event.data);
     
-        if (event.data === "UnityConnected") {
+        if (event.data === "InteractiveConnected") {
             unityConnected = true;
             console.log("互動端口 已連接");
         } else if (event.data === "UnityDisconnected") {
