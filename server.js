@@ -21,7 +21,7 @@ const wss = new WebSocket.Server({ server });
 let unitySocket = null; // 儲存 Unity 客戶端的連接
 
 wss.on("connection", (ws) => {
-    let isUnityClient = false; // 新增標記，用於區分是否為 Unity 客戶端
+    console.log("新客戶端已連接");
 
     // 心跳檢查機制
     const interval = setInterval(() => {
@@ -33,19 +33,20 @@ wss.on("connection", (ws) => {
     ws.on("message", (message) => {
         const msgString = message.toString();
 
-        // 檢查是否為 Unity 的認證消息
+        // 獲取短消息（處理長度小於 20 的情況）
+        const shortMsgString = msgString.length > 20 ? msgString.substring(0, 20) : msgString;
+        console.log("收到消息:", shortMsgString);
+        // Unity 客戶端連接
         if (msgString === "Unity") {
-            isUnityClient = true; // 設置為 Unity 客戶端
             console.log("Unity 客戶端已認證");
             unitySocket = ws; // 保存 Unity 連接
             broadcastToClients("UnityConnected"); // 廣播 Unity 已連接
-            return; // 不需要進一步處理
         }
-
-        // 處理圖片數據或其他消息
-        if (msgString.startsWith("data:image/png;base64,")) {
+        // 圖片數據處理
+        else if (msgString.startsWith("data:image/png;base64,")) {
             console.log("收到圖片數據");
-            if (unitySocket && unitySocket.readyState === WebSocket.OPEN) {
+
+            if (unitySocket&& unitySocket.readyState === WebSocket.OPEN) {
                 unitySocket.send(msgString); // 將圖片數據發送到 Unity
                 console.log("圖片數據已發送到 Unity");
 
@@ -60,17 +61,15 @@ wss.on("connection", (ws) => {
                 ws.send("無法轉發圖片數據，Unity 未連接");
                 console.log("Unity 未連接，無法轉發圖片數據");
             }
-        } else {
+        }
+        
+        
+        // 處理其他消息
+        else {
             ws.send(`伺服器回應: ${msgString}`);
             console.log("已回應消息: ", `伺服器回應: ${msgString}`);
         }
     });
-    // 在這裡檢查是否需要記錄 "新客戶端已連接"
-    setTimeout(() => {
-        if (!isUnityClient) {
-            console.log("新客戶端已連接"); // 僅記錄非 Unity 客戶端
-        }
-    }, 100); // 延遲檢查，等待 Unity 認證消息
 
     // 客戶端斷開處理
     ws.on("close", () => {
