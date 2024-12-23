@@ -111,18 +111,17 @@ p.subtitle {
     justify-content: center;
     flex-wrap: wrap;
     /* 支援多排排列 */
-
+width: 90%;
 
     /* 預設背景色避免空白 */
 }
 
 .color-button {
     width: 40px;
-    /* 隨螢幕尺寸調整 */
     height: 40px;
-    max-width: 60px;
+    max-width: 50px;
     /* 限制最大尺寸 */
-    max-height: 60px;
+    max-height: 50px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
@@ -131,6 +130,7 @@ p.subtitle {
     border: 2px solid transparent;
     /* 預設透明邊框 */
     border: 2px solid rgb(255, 255, 255);
+    box-sizing: border-box; /* 確保寬高包含邊框 */
 }
 
 
