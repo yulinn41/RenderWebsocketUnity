@@ -12,8 +12,8 @@ body {
     align-items: center;
     margin: 0;
     padding: 0;
-    height: 200vh; /* 強制頁面高度超出裝置可視範圍 */
-    overflow-x: hidden; /* 禁止水平滾動 */
+    height: 200vh;
+    /* 強制頁面高度超出裝置可視範圍 */
     /* 滿足全螢幕高度 */
     overflow: hidden;
     /* 禁止滾動 */
@@ -27,13 +27,13 @@ body {
 }
 
 #text {
-    height: 15vh;
+    height: 10vh;
     /* 使用視窗高度的 15% */
-    max-height: 600px;
+    max-height: 12vh; 
     /* 限制最大高度 */
-    min-height: 15vh;
-    /* 使用視窗高度的最小值，避免過小 */
-    max-width: 1000px;
+    min-height: 10vh;
+    /* 使用視窗高度的最小值，避免過小
+    /*max-width: 1000px; */
     /* 限制最大寬度 */
     width: 100%;
     /* 自適應父容器寬度 */
@@ -45,7 +45,7 @@ body {
     /* 水平居中 */
     align-items: center;
     /* 垂直居中 */
-    overflow: hidden;
+    overflow: visible;
     /* 隱藏超出的內容 */
     position: relative;
     /* 確保子元素相對於容器定位 */
@@ -81,10 +81,10 @@ p.subtitle {
     font-size: 1.2rem;
     color: #ffffff;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     margin-top: -0.8rem;
-     /* 添加文字陰影 */
-       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    /* 添加文字陰影 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 #drawing-bar {
@@ -99,9 +99,9 @@ p.subtitle {
     justify-content: flex-start;
     /* 元素從容器頂部開始 */
     align-items: center;
-    padding: 1rem;
+    padding: 10px;
     /* 添加內部邊距 */
-    gap: 2rem;
+    gap: 1rem;
 }
 
 
@@ -117,9 +117,9 @@ p.subtitle {
 }
 
 .color-button {
-    width: calc(5vw);
+    width: 40px;
     /* 隨螢幕尺寸調整 */
-    height: calc(5vw);
+    height: 40px;
     max-width: 60px;
     /* 限制最大尺寸 */
     max-height: 60px;
@@ -142,18 +142,21 @@ p.subtitle {
 .color-button.active {
     opacity: 1;
 }
+
 #eraser {
     border: 2px solid #808080;
     /* 為橡皮擦按鈕添加黃色邊框 */
 }
+
 #eraser.active {
     border: 10px solid #808080;
     /* 為橡皮擦按鈕添加黃色邊框 */
 }
 
- /* 新增清除按鈕樣式 */
- .clear-button {
-    width: calc(10vw); /* 是 color-button 的兩倍 */
+/* 新增清除按鈕樣式 */
+.clear-button {
+    width: calc(10vw);
+    /* 是 color-button 的兩倍 */
     height: calc(5vw);
     max-width: 120px;
     max-height: 60px;
@@ -168,21 +171,23 @@ p.subtitle {
 
 .clear-button:hover {
     background-color: #be4622;
-    
+
 }
+
 #upload:hover {
-    background-color:  #be4622;
+    background-color: #be4622;
 }
+
 #canvas-wrapper {
     position: relative;
     /* 開啟相對定位，作為子元素的參考點 */
-    width: 80vw;
+    width: 90vw;
     /* 寬度為視窗的 70% */
-    height: 80vw;
+    height: 90vw;
     /* 高度保持正方形 */
-    max-width: 600px;
+    max-width: 800px;
     /* 最大寬度 */
-    max-height: 600px;
+    max-height: 800px;
     /* 最大高度 */
     /* 最大高度 */
     margin: -1rem 0;
@@ -240,7 +245,7 @@ p.subtitle {
 }
 
 #upload {
-    background-color:  #df5500;
+    background-color: #df5500;
     color: white;
     border: none;
     padding: 15px 25px;
@@ -277,22 +282,20 @@ p.subtitle {
         /* 調整按鈕文字大小 */
         margin-bottom: 1rem;
     }
-    .clear-button{
+
+    .clear-button {
         width: 80px;
         /* 修改按鈕寬度 */
         height: 40px;
     }
+
     /* 調整 Canvas 的大小 */
-    #canvas-wrapper {
-        width: 70vw;
-        /* 根據需求調整寬度 */
-        height: 70vw;
-        /* 保持正方形 */
-        max-width: 400px;
-        /* 限制最大寬度 */
-        max-height: 400px;
-        /* 限制最大高度 */
-    }
+    /*#canvas-wrapper {
+    width: 70vw;
+    height: 70vw;
+    max-width: 400px;
+    max-height: 400px;
+}*/
 
     #myCanvas,
     #overlay-image {
@@ -318,7 +321,7 @@ p.subtitle {
     }
 
     #drawing-bar {
-        gap: 1rem;
+        /*gap: 1rem;*/
         /* 調整內部元素的間距 */
     }
 
@@ -332,20 +335,22 @@ p.subtitle {
         /* 調整按鈕文字大小 */
         margin-bottom: 1rem;
     }
-    .clear-button{
+
+    .clear-button {
         width: 80px;
         /* 修改按鈕寬度 */
         height: 40px;
     }
+
     /* 調整 Canvas 的大小 */
     #canvas-wrapper {
-        width: 70vw;
+        /*width: 70vw;*/
         /* 根據需求調整寬度 */
-        height: 70vw;
+       /* height: 70vw;*/
         /* 保持正方形 */
-        max-width: 300px;
+       /* max-width: 300px;*/
         /* 限制最大寬度 */
-        max-height: 300px;
+        /*max-height: 300px;*/
         /* 限制最大高度 */
     }
 
@@ -379,10 +384,10 @@ p.subtitle {
         font-size: 1rem;
     }
 
-    #drawing-bar {
+    /* #drawing-bar {
         transform: scale(1);
-        /* 縮小比例 */
-    }
+         進一步縮小比例 
+    } */
 }
 
 @media (max-width: 480px) {
@@ -390,8 +395,8 @@ p.subtitle {
         font-size: 1rem;
     }
 
-    #drawing-bar {
+    /* #drawing-bar {
         transform: scale(1);
-        /* 進一步縮小比例 */
-    }
+         進一步縮小比例 
+    } */
 }

@@ -119,7 +119,7 @@ function resizeWrapper() {
     const canvas = document.getElementById("myCanvas");
 
     // 根據螢幕尺寸計算大小
-    const size = Math.min(window.innerWidth * 0.8, window.innerHeight * 0.8, 600);
+    const size = Math.min(window.innerWidth * 0.9, window.innerHeight * 0.9, 500);
 
     // 設置 Wrapper 的寬高
     wrapper.style.width = `${size}px`;
