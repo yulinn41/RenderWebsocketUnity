@@ -12,7 +12,8 @@ body {
     align-items: center;
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: 200vh; /* 強制頁面高度超出裝置可視範圍 */
+    overflow-x: hidden; /* 禁止水平滾動 */
     /* 滿足全螢幕高度 */
     overflow: hidden;
     /* 禁止滾動 */

@@ -219,3 +219,7 @@ clearButton.addEventListener("click", () => {
 let isWaitingForQueue = false; // 確保是否在等待伺服器回應的狀態
 
 
+window.onload = () => {
+    // 當頁面加載後，滾動一小段距離
+    window.scrollTo(0, 1);
+};
