@@ -18,7 +18,7 @@ body {
     /* 禁止滾動 */
     background-color: #000000;
     /* 預設背景色避免空白 */
-    background-image: url('Big_1920x1080(low).webp');
+    background-image: url('pic/Big_1920x1080(low).webp');
     /* 預設背景圖片 */
     background-size: cover;
     background-position: center;
