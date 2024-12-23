@@ -16,7 +16,7 @@ body {
     /* 滿足全螢幕高度 */
     overflow: hidden;
     /* 禁止滾動 */
-    background-color: #000000;
+    /*background-color: #000000;*/
     /* 預設背景色避免空白 */
     background-image: url('pic/Big_1920x1080(low).webp');
     /* 預設背景圖片 */
