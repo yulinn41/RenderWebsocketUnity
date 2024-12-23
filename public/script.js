@@ -103,11 +103,11 @@ function isCanvasBlank(canvas) {
 function resizeCanvasBackground() {
     const body = document.body;
     if (window.innerWidth <= 768) {
-        body.style.backgroundImage = "url('pic/Small_1080x1920 (2).webp')";
+        body.style.backgroundImage = "url('pic/Small_1080x1920(low).webp')";
     } else if (window.innerWidth <= 1200) {
-        body.style.backgroundImage = "url('pic/Middle_1200x1920 (2).webp')";
+        body.style.backgroundImage = "url('pic/Middle_1200x1920(low).webp')";
     } else {
-        body.style.backgroundImage = "url('pic/Big_1920x1080 (2).webp')";
+        body.style.backgroundImage = "url('pic/Big_1920x1080(low).webp')";
     }
 }
 
