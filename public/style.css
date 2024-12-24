@@ -16,6 +16,8 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%; /* 确保页面高度占满视窗 */
+    width: 100%;
+    max-width: 100vw;
     overflow: hidden; /* 禁止滚动 */
 }
 
@@ -40,9 +42,10 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    
+    background-attachment: fixed; /* 背景固定 */
     font-family: Arial, sans-serif;   
 
+    
 }
 
 * {
@@ -128,6 +131,18 @@ p.subtitle {
     padding: 10px;
     /* 添加內部邊距 */
     gap: 1rem;
+}
+/* Loading 层样式 */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #eb6139; /* 红色全屏背景 */
+    z-index: 9999; /* 确保在最上层 */
+    opacity: 1; /* 初始完全可见 */
+    transition: opacity 0.5s ease; /* 淡出过渡效果 */
 }
 
 

@@ -109,6 +109,8 @@ function resizeCanvasBackground() {
     } else {
         body.style.backgroundImage = "url('pic/Big_1920x1080(low).webp')";
     }
+    // 根据视口大小设置背景
+    
 }
 
 resizeCanvasBackground();
@@ -219,10 +221,6 @@ clearButton.addEventListener("click", () => {
 let isWaitingForQueue = false; // 確保是否在等待伺服器回應的狀態
 
 
-/*window.onload = () => {
-    // 當頁面加載後，滾動一小段距離
-    window.scrollTo(0, 1);
-};*/
 
 // 定义一个函数来更新 --vh
 function updateVh() {
@@ -246,3 +244,16 @@ document.addEventListener('touchmove', function (e) {
         e.preventDefault(); // 禁止触摸缩放
     }
 }, { passive: false });
+// 等待页面完全加载
+window.onload = function () {
+    // 获取 loading 层
+    const loadingOverlay = document.getElementById('loading-overlay');
+    
+    // 设置 loading 层淡出
+    loadingOverlay.style.opacity = 0;
+
+    // 在过渡完成后移除元素
+    setTimeout(() => {
+        loadingOverlay.style.display = 'none';
+    }, 500); // 等待过渡完成时间
+};
