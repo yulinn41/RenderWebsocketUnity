@@ -1,3 +1,13 @@
+
+/* 定义需要适应视口高度的元素样式 */
+.my-element {
+    height: calc(var(--vh, 1vh) * 100); /* 使用自定义属性 --vh */
+    width: 100%; /* 可选：填满宽度 */
+}
+
+
+
+
 html,
 body {
     height: 100%;

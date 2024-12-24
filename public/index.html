@@ -15,44 +15,47 @@
 </head>
 
 <body>
-    <div id="text">
-        <img id="text-img" src="pic/text.webp" onerror="this.onerror=null; this.src='pic/text.png';" alt="備用圖片">
-    </div>
-    <p class="subtitle">點亮心願燈籠，迎向美好2025！</p>
-    <div id="queue-status" style="font-size: 1.2rem; color: green; margin-top: 10px; display: none;">
-        排隊圖片數量：0
-    </div>
-
-
-    <div id="drawing-bar">
-        <!-- 選擇顏色按鈕 -->
-        <div id="toolbar">
-            <button class="color-button" id="eraser" style="background-color: #FFFFFF;" data-color="#FFFFFF"></button>
-            <button class="color-button" style="background-color: #808080;" data-color="#808080"></button>
-            <button class="color-button" style="background-color: #ec7474;" data-color="#ec7474"></button>
-            <button class="color-button" style="background-color: #1d7f8c;" data-color="#1d7f8c"></button>
-            <button class="color-button" style="background-color: #b0fcf9;" data-color="#b0fcf9"></button>
-            <button class="color-button" style="background-color: #d2a100;" data-color="#d2a100"></button>
-            <button class="color-button" style="background-color: #6b2f1c;" data-color="#6b2f1c"></button>
-            <button class="color-button" style="background-color: #133f3f;" data-color="#133f3f"></button>
-            <button class="color-button" style="background-color: #000000;" data-color="#000000"></button>
-
-            <!-- 新增清除按鈕 -->
-            <button class="clear-button" id="clear-canvas">重新繪製</button>
+    <div class="my-element">
+        <div id="text">
+            <img id="text-img" src="pic/text.webp" onerror="this.onerror=null; this.src='pic/text.png';" alt="備用圖片">
+        </div>
+        <p class="subtitle">點亮心願燈籠，迎向美好2025！</p>
+        <div id="queue-status" style="font-size: 1.2rem; color: green; margin-top: 10px; display: none;">
+            排隊圖片數量：0
         </div>
 
-        <!-- 疊加圖片 -->
-        <div id="canvas-wrapper">
+
+        <div id="drawing-bar">
+            <!-- 選擇顏色按鈕 -->
+            <div id="toolbar">
+                <button class="color-button" id="eraser" style="background-color: #FFFFFF;"
+                    data-color="#FFFFFF"></button>
+                <button class="color-button" style="background-color: #808080;" data-color="#808080"></button>
+                <button class="color-button" style="background-color: #ec7474;" data-color="#ec7474"></button>
+                <button class="color-button" style="background-color: #1d7f8c;" data-color="#1d7f8c"></button>
+                <button class="color-button" style="background-color: #b0fcf9;" data-color="#b0fcf9"></button>
+                <button class="color-button" style="background-color: #d2a100;" data-color="#d2a100"></button>
+                <button class="color-button" style="background-color: #6b2f1c;" data-color="#6b2f1c"></button>
+                <button class="color-button" style="background-color: #133f3f;" data-color="#133f3f"></button>
+                <button class="color-button" style="background-color: #000000;" data-color="#000000"></button>
+
+                <!-- 新增清除按鈕 -->
+                <button class="clear-button" id="clear-canvas">重新繪製</button>
+            </div>
+
             <!-- 疊加圖片 -->
-            <img id="overlay-image" src="pic/final.png" alt="Overlay Image">
+            <div id="canvas-wrapper">
+                <!-- 疊加圖片 -->
+                <img id="overlay-image" src="pic/final.png" alt="Overlay Image">
 
-            <!-- 繪圖區域 -->
-            <canvas id="myCanvas"></canvas>
+                <!-- 繪圖區域 -->
+                <canvas id="myCanvas"></canvas>
+            </div>
+            <!-- 上傳圖片按鈕 -->
+            <button id="upload">上傳圖片</button>
         </div>
-        <!-- 上傳圖片按鈕 -->
-        <button id="upload">上傳圖片</button>
+        
     </div>
-
     <script src="script.js"></script>
 </body>
 

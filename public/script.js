@@ -219,7 +219,21 @@ clearButton.addEventListener("click", () => {
 let isWaitingForQueue = false; // 確保是否在等待伺服器回應的狀態
 
 
-window.onload = () => {
+/*window.onload = () => {
     // 當頁面加載後，滾動一小段距離
     window.scrollTo(0, 1);
-};
+};*/
+
+// 定义一个函数来更新 --vh
+function updateVh() {
+    // 获取视口高度的 1%
+    let vh = window.innerHeight * 0.01;
+    // 设置为 CSS 自定义属性 --vh
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// 初始化时调用
+updateVh();
+
+// 在窗口调整大小时更新 --vh
+window.addEventListener('resize', updateVh);
