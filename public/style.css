@@ -8,6 +8,8 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+
+    
 }
 
 html, body {
@@ -18,7 +20,18 @@ html, body {
 }
 
 body {
-    font-family: Arial, sans-serif;   
+    user-select: none;
+    /* 禁止文字選取 */
+    -webkit-user-select: none;
+    /* 禁止 Webkit 瀏覽器選取 */
+    -moz-user-select: none;
+    /* 禁止 Firefox 瀏覽器選取 */
+    -ms-user-select: none;
+    /* 禁止 IE 瀏覽器選取 */
+    -o-user-select: none;
+    /* 禁止舊版 Opera 瀏覽器選取 */
+    -webkit-touch-callout: none; /* 禁止 iOS 长按弹出菜单 */
+
     /* 滿足全螢幕高度 */
     background-color: #eb6139;
     /* 預設背景色避免空白 */
@@ -27,6 +40,9 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    
+    font-family: Arial, sans-serif;   
+
 }
 
 * {
@@ -208,16 +224,6 @@ width: 90%;
     /* 確保子元素在容器內居中 */
     aspect-ratio: 1;
     /* 保持正方形比例 */
-    user-select: none;
-    /* 禁止文字選取 */
-    -webkit-user-select: none;
-    /* 禁止 Webkit 瀏覽器選取 */
-    -moz-user-select: none;
-    /* 禁止 Firefox 瀏覽器選取 */
-    -ms-user-select: none;
-    /* 禁止 IE 瀏覽器選取 */
-    -o-user-select: none;
-    /* 禁止舊版 Opera 瀏覽器選取 */
 
 }
 
