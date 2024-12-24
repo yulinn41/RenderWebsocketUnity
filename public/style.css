@@ -8,11 +8,13 @@
 
 
 
-html,
-body {
-    height: 100%;
-    /* 確保頁面填滿視窗 */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* 确保页面高度占满视窗 */
+    overflow: hidden; /* 禁止滚动 */
 }
+
 
 body {
     font-family: Arial, sans-serif;
@@ -20,13 +22,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    margin: 0;
-    padding: 0;
-    height: 200vh;
-    /* 強制頁面高度超出裝置可視範圍 */
     /* 滿足全螢幕高度 */
-    overflow: hidden;
-    /* 禁止滾動 */
     background-color: #eb6139;
     /* 預設背景色避免空白 */
     background-image: url('pic/Big_1920x1080(low).webp');

@@ -237,3 +237,12 @@ updateVh();
 
 // 在窗口调整大小时更新 --vh
 window.addEventListener('resize', updateVh);
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault(); // 禁止双指缩放
+});
+
+document.addEventListener('touchmove', function (e) {
+    if (e.scale !== 1) {
+        e.preventDefault(); // 禁止触摸缩放
+    }
+}, { passive: false });
