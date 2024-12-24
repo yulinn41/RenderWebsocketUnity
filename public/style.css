@@ -56,11 +56,11 @@ body {
 
 
 #text {
-    height: 10vh;
+    height: calc(var(--vh, 1vh) * 10); /* 使用自定义属性 --vh */
     /* 使用視窗高度的 15% */
     max-height: 12vh; 
     /* 限制最大高度 */
-    min-height: 10vh;
+    min-height: calc(var(--vh, 1vh) * 10);
     /* 使用視窗高度的最小值，避免過小
     /*max-width: 1000px; */
     /* 限制最大寬度 */
@@ -105,7 +105,7 @@ body {
 
 
 p.subtitle {
-    height: 3vh;
+    height: calc(var(--vh, 1vh) * 3);
     /* 使用視窗高度的 15% */
     font-size: 1.2rem;
     color: #ffffff;
@@ -117,7 +117,7 @@ p.subtitle {
 }
 
 #drawing-bar {
-    height: 82vh;
+    height: calc(var(--vh, 1vh) * 87);
     width: 100%;
     max-width: 700px;
 
