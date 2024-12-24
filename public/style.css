@@ -3,10 +3,12 @@
 .my-element {
     height: calc(var(--vh, 1vh) * 100); /* 使用自定义属性 --vh */
     width: 100%; /* 可选：填满宽度 */
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
-
-
-
 
 html, body {
     margin: 0;
@@ -15,13 +17,8 @@ html, body {
     overflow: hidden; /* 禁止滚动 */
 }
 
-
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    font-family: Arial, sans-serif;   
     /* 滿足全螢幕高度 */
     background-color: #eb6139;
     /* 預設背景色避免空白 */
@@ -31,6 +28,13 @@ body {
     background-position: center;
     background-repeat: no-repeat;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 保证宽高计算更直观 */
+}
+
 
 #text {
     height: 10vh;
