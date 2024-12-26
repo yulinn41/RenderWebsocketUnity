@@ -75,6 +75,11 @@ uploadButton.addEventListener("click", () => {
     resizedCanvas.width = targetSize;
     resizedCanvas.height = targetSize;
 
+      // 填充白色背景
+      resizedCtx.fillStyle = "white";
+      resizedCtx.fillRect(0, 0, targetSize, targetSize);
+
+      
     // 將原始畫布內容繪製到標準化 canvas
     resizedCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
 

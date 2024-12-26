@@ -58,8 +58,6 @@ body {
 #text {
     height: calc(var(--vh, 1vh) * 10); /* 使用自定义属性 --vh */
     /* 使用視窗高度的 15% */
-    max-height: 12vh; 
-    /* 限制最大高度 */
     min-height: calc(var(--vh, 1vh) * 10);
     /* 使用視窗高度的最小值，避免過小
     /*max-width: 1000px; */
