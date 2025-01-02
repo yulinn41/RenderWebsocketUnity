@@ -251,7 +251,7 @@ width: 90%;
     /* 填滿父容器 */
     height: 100%;
     /* 填滿父容器 */
-    background-color: rgb(255, 255, 255);
+    background-color: #FFEEDE;
     z-index: 1;
     pointer-events: auto;
     /* 確保畫布可以互動 */
