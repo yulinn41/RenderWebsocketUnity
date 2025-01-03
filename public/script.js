@@ -265,26 +265,33 @@ window.onload = function () {
 document.getElementById("test").addEventListener("click", () => {
     const start = parseInt(document.getElementById("start").value);
     const end = parseInt(document.getElementById("end").value);
-    const count = parseInt(document.getElementById("count").value);
+    //const count = parseInt(document.getElementById("count").value);
+            // 自动计算生成数量 (count)
+            const count = end - start + 1;
 
+    // 检查输入是否有效
     if (isNaN(start) || isNaN(end) || isNaN(count) || start >= end || count <= 0) {
         alert("请确保输入的范围和数量有效！");
         return;
     }
+
+    // 检查 WebSocket 是否已连接
     if (ws.readyState !== WebSocket.OPEN) {
         alert("上传失败，请检查服务器连接！");
         return; // 阻止继续执行
     }
 
-    // 检查 Unity 是否连接
+    // 检查 Unity 是否已连接
     if (!unityConnected) {
         alert("上传失败，游戏尚未连接！");
         return; // 阻止继续执行
     }
 
-    const step = Math.floor((end - start + 1) / count);
+    // 计算生成编号的步进值
+    const step = (end - start) / (count - 1);
+
     for (let i = 0; i < count; i++) {
-        const number = start + i * step;
+        const number = Math.round(start + i * step); // 根据步进值计算当前编号
         const color = `hsl(${(number * 36) % 360}, 100%, 50%)`;
 
         // 创建一个 Canvas
@@ -308,4 +315,6 @@ document.getElementById("test").addEventListener("click", () => {
         const imageData = canvas.toDataURL("image/png");
         ws.send(imageData); // 发送图片数据
     }
+
+    alert(`已成功生成并发送 ${count} 张图片！`);
 });
