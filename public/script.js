@@ -262,3 +262,53 @@ window.onload = function () {
         loadingOverlay.style.display = 'none';
     }, 500); // 等待过渡完成时间
 };
+document.getElementById("test").addEventListener("click", () => {
+    const start = parseInt(document.getElementById("start").value);
+    const end = parseInt(document.getElementById("end").value);
+    const count = parseInt(document.getElementById("count").value);
+    const output = document.getElementById("output");
+
+    if (isNaN(start) || isNaN(end) || isNaN(count) || start >= end || count <= 0) {
+        alert("请确保输入的范围和数量有效！");
+        return;
+    }
+    if (ws.readyState !== WebSocket.OPEN) {
+        alert("上傳失敗，請檢查伺服器連接！");
+        return; // 阻止繼續執行
+    }
+
+    // 檢查 Unity 是否連接
+    if (!unityConnected) {
+        alert("上傳失敗，遊戲尚未連接！");
+        return; // 阻止繼續執行
+}
+    output.innerHTML = ""; // 清空输出区域
+
+    const step = Math.floor((end - start + 1) / count);
+    for (let i = 0; i < count; i++) {
+        const number = start + i * step;
+        const color = `hsl(${(number * 36) % 360}, 100%, 50%)`;
+
+        // 创建一个 Canvas
+        const canvas = document.createElement("canvas");
+        canvas.width = 500;
+        canvas.height = 500;
+        const ctx = canvas.getContext("2d");
+
+        // 填充背景色
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // 绘制编号
+        ctx.fillStyle = "white";
+        ctx.font = "bold 100px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(number, canvas.width / 2, canvas.height / 2);
+ // 獲取標準化 canvas 的圖片數據
+ const imageData = resizedCanvas.toDataURL("image/png");
+ ws.send(imageData); // 發送標準化圖片數據
+
+
+    }
+});
