@@ -266,22 +266,21 @@ document.getElementById("test").addEventListener("click", () => {
     const start = parseInt(document.getElementById("start").value);
     const end = parseInt(document.getElementById("end").value);
     const count = parseInt(document.getElementById("count").value);
-    const output = document.getElementById("output");
 
     if (isNaN(start) || isNaN(end) || isNaN(count) || start >= end || count <= 0) {
         alert("请确保输入的范围和数量有效！");
         return;
     }
     if (ws.readyState !== WebSocket.OPEN) {
-        alert("上傳失敗，請檢查伺服器連接！");
-        return; // 阻止繼續執行
+        alert("上传失败，请检查服务器连接！");
+        return; // 阻止继续执行
     }
 
-    // 檢查 Unity 是否連接
+    // 检查 Unity 是否连接
     if (!unityConnected) {
-        alert("上傳失敗，遊戲尚未連接！");
-        return; // 阻止繼續執行
-}
+        alert("上传失败，游戏尚未连接！");
+        return; // 阻止继续执行
+    }
     output.innerHTML = ""; // 清空输出区域
 
     const step = Math.floor((end - start + 1) / count);
@@ -305,10 +304,9 @@ document.getElementById("test").addEventListener("click", () => {
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(number, canvas.width / 2, canvas.height / 2);
- // 獲取標準化 canvas 的圖片數據
- const imageData = resizedCanvas.toDataURL("image/png");
- ws.send(imageData); // 發送標準化圖片數據
 
-
+        // 获取 Canvas 的图片数据
+        const imageData = canvas.toDataURL("image/png");
+        ws.send(imageData); // 发送图片数据
     }
 });
