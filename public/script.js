@@ -281,7 +281,6 @@ document.getElementById("test").addEventListener("click", () => {
         alert("上传失败，游戏尚未连接！");
         return; // 阻止继续执行
     }
-    output.innerHTML = ""; // 清空输出区域
 
     const step = Math.floor((end - start + 1) / count);
     for (let i = 0; i < count; i++) {
