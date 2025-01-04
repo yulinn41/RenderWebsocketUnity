@@ -76,7 +76,7 @@ uploadButton.addEventListener("click", () => {
     resizedCanvas.height = targetSize;
 
       // 填充白色背景
-      resizedCtx.fillStyle = "FFEEDE";
+      resizedCtx.fillStyle = "#FFEEDE";
       resizedCtx.fillRect(0, 0, targetSize, targetSize);
 
       
