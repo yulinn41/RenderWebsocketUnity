@@ -71,7 +71,7 @@ uploadButton.addEventListener("click", () => {
     const resizedCtx = resizedCanvas.getContext("2d");
 
     // 設定標準化尺寸
-    const targetSize = 600; // 固定寬高
+    const targetSize = 256; // 固定寬高
     resizedCanvas.width = targetSize;
     resizedCanvas.height = targetSize;
 
