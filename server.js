@@ -56,7 +56,6 @@ wss.on("connection", (ws) => {
                 unitySocket.send(msgString); // 將圖片數據發送到 Unity
                 console.log("圖片數據已發送到 Unity");
 
-                if (unitySocket.listenerCount("message") === 0) {
                 unitySocket.once("message", (unityMessage) => {
                     if (unityMessage.toString().startsWith("ImageQueue:")) {
                         ws.send(unityMessage.toString()); // 回傳給當前客戶端
@@ -64,7 +63,7 @@ wss.on("connection", (ws) => {
                         /*broadcastToClients(unityMessage.toString()); // 廣播給所有客戶端*/
                     }
                 });
-            }
+            
             } else {
                 ws.send("無法轉發圖片數據，Unity 未連接");
                 console.log("Unity 未連接，無法轉發圖片數據");
