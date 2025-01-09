@@ -22,19 +22,22 @@ let unitySocket = null; // 儲存 Unity 客戶端的連接
 
 wss.on("connection", (ws) => {
     console.log("新客戶端已連接");
-    ws.isUnity = req.url.includes("unity"); // 假設用 URL 判斷是否為 Unity
-    console.log("客戶端類型:", ws.isUnity ? "Unity" : "網站");
+
     // 心跳檢查機制
     const interval = setInterval(() => {
         if (ws.readyState === WebSocket.OPEN) {
             ws.ping(); // 發送心跳信號
         }
     }, 25000); // 每 25 秒發送一次心跳
-
-            // 當新的網頁客戶端連接時，發送 Unity 的當前連接狀態
-            if (unitySocket && unitySocket.readyState === WebSocket.OPEN) {
-                ws.send("InteractiveConnected");
-            }
+    // 監聽 pong 回應
+    ws.on("pong", () => {
+        console.log("收到 pong 回應，客戶端仍然活躍");
+    });
+    
+    // 當新的網頁客戶端連接時，發送 Unity 的當前連接狀態
+    if (unitySocket && unitySocket.readyState === WebSocket.OPEN) {
+        ws.send("InteractiveConnected");
+    }
     ws.on("message", (message) => {
         const msgString = message.toString();
 
@@ -53,7 +56,7 @@ wss.on("connection", (ws) => {
         else if (msgString.startsWith("data:image/png;base64,")) {
             console.log("收到圖片數據");
 
-            if (unitySocket&& unitySocket.readyState === WebSocket.OPEN) {
+            if (unitySocket && unitySocket.readyState === WebSocket.OPEN) {
                 unitySocket.send(msgString); // 將圖片數據發送到 Unity
                 console.log("圖片數據已發送到 Unity");
 
@@ -64,14 +67,14 @@ wss.on("connection", (ws) => {
                         /*broadcastToClients(unityMessage.toString()); // 廣播給所有客戶端*/
                     }
                 });
-            
+
             } else {
                 ws.send("無法轉發圖片數據，Unity 未連接");
                 console.log("Unity 未連接，無法轉發圖片數據");
             }
         }
-        
-        
+
+
         // 處理其他消息
         else {
             ws.send(`伺服器回應: ${msgString}`);
@@ -100,12 +103,6 @@ wss.on("connection", (ws) => {
     });
 });
 
-// **新增：檢查當前連線數量**
-setInterval(() => {
-    const unityCount = [...wss.clients].filter(client => client.isUnity).length;
-    const websiteCount = [...wss.clients].filter(client => !client.isUnity).length;
-    console.log(`Unity 客戶端數量: ${unityCount}, 網站客戶端數量: ${websiteCount}`);
-}, 5000);
 
 
 
