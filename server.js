@@ -22,7 +22,8 @@ let unitySocket = null; // 儲存 Unity 客戶端的連接
 
 wss.on("connection", (ws) => {
     console.log("新客戶端已連接");
-
+    ws.isUnity = req.url.includes("unity"); // 假設用 URL 判斷是否為 Unity
+    console.log("客戶端類型:", ws.isUnity ? "Unity" : "網站");
     // 心跳檢查機制
     const interval = setInterval(() => {
         if (ws.readyState === WebSocket.OPEN) {
