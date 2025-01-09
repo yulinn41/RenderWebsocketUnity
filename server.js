@@ -101,8 +101,10 @@ wss.on("connection", (ws) => {
 
 // **新增：檢查當前連線數量**
 setInterval(() => {
-    console.log(`當前連線數量: ${wss.clients.size}`);
-}, 8000); // 每 5 秒打印一次當前連線數量
+    const unityCount = [...wss.clients].filter(client => client.isUnity).length;
+    const websiteCount = [...wss.clients].filter(client => !client.isUnity).length;
+    console.log(`Unity 客戶端數量: ${unityCount}, 網站客戶端數量: ${websiteCount}`);
+}, 5000);
 
 
 
