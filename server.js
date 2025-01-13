@@ -29,10 +29,7 @@ wss.on("connection", (ws) => {
             ws.ping(); // 發送心跳信號
         }
     }, 25000); // 每 25 秒發送一次心跳
-    // 監聽 pong 回應
-    ws.on("pong", () => {
-        console.log("收到 pong 回應，客戶端仍然活躍");
-    });
+
     
     // 當新的網頁客戶端連接時，發送 Unity 的當前連接狀態
     if (unitySocket && unitySocket.readyState === WebSocket.OPEN) {
