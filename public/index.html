@@ -26,15 +26,14 @@
         <div id="queue-status" style="font-size: 1.2rem; color: green; margin-top: 10px; display: none;">
             排隊圖片數量：0
         </div>
-            <!-- 上傳圖片按鈕 -->
-            <button id="upload">上傳圖片</button>
-    <label for="start">起始編號：</label>
-    <input type="number" id="start" value="1">
-    <label for="end">結束編號：</label>
-    <input type="number" id="end" value="10">
-    <label for="count">生成圖片數量：</label>
-    <input type="number" id="count" value="10">
-            <button id="test">圖片生成</button>
+
+    <label for="start" style=" display: none;">起始編號：</label>
+    <input type="number" id="start" value="1" style=" display: none;">
+    <label for="end" style=" display: none;">結束編號：</label>
+    <input type="number" id="end" value="10" style=" display: none;">
+    <label for="count" style=" display: none;">生成圖片數量：</label>
+    <input type="number" id="count" value="10" style=" display: none;">
+            <button id="test" style=" display: none;">圖片生成</button>
 
         <div id="drawing-bar">
             <!-- 選擇顏色按鈕 -->
@@ -59,8 +58,10 @@
 
                 <!-- 繪圖區域 -->
                 <canvas id="myCanvas"></canvas>
-            </div>
 
+            </div>
+                            <!-- 上傳圖片按鈕 -->
+                            <button id="upload">上傳圖片</button>
         </div>
 
     </div>
