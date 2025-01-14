@@ -4,7 +4,7 @@ const express = require("express");
 const path = require("path");
 
 // 使用 Render 或 Heroku 指定的 PORT 或預設為 8080
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 
 // 創建 Express 應用
 const app = express();
@@ -30,7 +30,7 @@ wss.on("connection", (ws) => {
         }
     }, 25000); // 每 25 秒發送一次心跳
 
-    
+
     // 當新的網頁客戶端連接時，發送 Unity 的當前連接狀態
     if (unitySocket && unitySocket.readyState === WebSocket.OPEN) {
         ws.send("InteractiveConnected");
@@ -57,7 +57,13 @@ wss.on("connection", (ws) => {
                 unitySocket.send(msgString); // 將圖片數據發送到 Unity
                 console.log("圖片數據已發送到 Unity");
 
+                const timeout = setTimeout(() => {
+                    console.error("Unity 未回應，超時中止回呼");
+                    ws.send("Unity 未回應，請稍後重試");
+                }, 5000); // 設置超時（例如 5 秒）
+
                 unitySocket.once("message", (unityMessage) => {
+                    clearTimeout(timeout); // 清除超時
                     if (unityMessage.toString().startsWith("ImageQueue:")) {
                         ws.send(unityMessage.toString()); // 回傳給當前客戶端
                         console.log("圖片排隊數量已回傳給客戶端:", unityMessage.toString());

@@ -22,7 +22,7 @@ function connectWebSocket() {
 
     // 接收 WebSocket 回傳的消息
     ws.onmessage = (event) => {
-        console.log("接收到伺服器消息:", event.data);
+        //console.log("接收到伺服器消息:", event.data);
     
         if (event.data === "InteractiveConnected") {
             unityConnected = true;
@@ -136,7 +136,7 @@ function resizeWrapper() {
     canvas.width = size;
     canvas.height = size;
 
-    console.log(`Wrapper and Canvas resized to: ${size}px x ${size}px`);
+    //console.log(`Wrapper and Canvas resized to: ${size}px x ${size}px`);
 }
 resizeWrapper();
 window.addEventListener("resize", () => {
