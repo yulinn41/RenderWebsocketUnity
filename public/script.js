@@ -22,27 +22,32 @@ function connectWebSocket() {
 
     // 接收 WebSocket 回傳的消息
     ws.onmessage = (event) => {
-        //console.log("接收到伺服器消息:", event.data);
-    
-        if (event.data === "InteractiveConnected") {
-            unityConnected = true;
-            console.log("互動端口 已連接");
-        } else if (event.data === "UnityDisconnected") {
-            unityConnected = false;
-            console.log("互動端口 已斷開");
-        } else if (event.data.startsWith("ImageQueue:")) {
+        // 檢查是否是 Unity 狀態消息
+        if (event.data.startsWith("UnityStatus:")) {
+            const status = event.data.split(":")[1]; // 提取狀態值
+            if (status === "Connected") {
+                unityConnected = true;
+                console.log("互動軟體已連接");
+            } else if (status === "Disconnected") {
+                unityConnected = false;
+                console.log("互動軟體已斷開");
+            }
+
+        }
+        else if (event.data.startsWith("ImageQueue:")) {
             const queueCount = event.data.split(":")[1];
             console.log("圖片排隊數量:", queueCount);
-    
+
             // 更新 HTML 顯示圖片排隊數量
             document.getElementById("queue-status").innerText = `排隊圖片數量：${queueCount}`;
-        // 顯示排隊數量的 alert
-        alert(`圖片已上傳！當前排隊數量：${queueCount}`);
-        } else {
+            // 顯示排隊數量的 alert
+            alert(`圖片已上傳！當前排隊數量：${queueCount}`);
+        } 
+        else {
             console.log("其他消息:", event.data);
         }
     };
-    
+
 }
 
 connectWebSocket();
@@ -65,7 +70,7 @@ uploadButton.addEventListener("click", () => {
     if (!unityConnected) {
         alert("上傳失敗，遊戲尚未連接！");
         return; // 阻止繼續執行
-}
+    }
     // 創建一個標準化的 canvas
     const resizedCanvas = document.createElement("canvas");
     const resizedCtx = resizedCanvas.getContext("2d");
@@ -75,11 +80,11 @@ uploadButton.addEventListener("click", () => {
     resizedCanvas.width = targetSize;
     resizedCanvas.height = targetSize;
 
-      // 填充白色背景
-      resizedCtx.fillStyle = "#FFEEDE";
-      resizedCtx.fillRect(0, 0, targetSize, targetSize);
+    // 填充白色背景
+    resizedCtx.fillStyle = "#FFEEDE";
+    resizedCtx.fillRect(0, 0, targetSize, targetSize);
 
-      
+
     // 將原始畫布內容繪製到標準化 canvas
     resizedCtx.drawImage(canvas, 0, 0, targetSize, targetSize);
 
@@ -89,7 +94,7 @@ uploadButton.addEventListener("click", () => {
 
     console.log("標準化圖片數據已發送:", imageData.substring(0, 20));
     isWaitingForQueue = true; // 等待伺服器回傳圖片數量
-    
+
     ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空原始畫布
 });
 
@@ -115,7 +120,7 @@ function resizeCanvasBackground() {
         body.style.backgroundImage = "url('pic/Big_1920x1080(low).webp')";
     }
     // 根据视口大小设置背景
-    
+
 }
 
 resizeCanvasBackground();
@@ -253,7 +258,7 @@ document.addEventListener('touchmove', function (e) {
 window.onload = function () {
     // 获取 loading 层
     const loadingOverlay = document.getElementById('loading-overlay');
-    
+
     // 设置 loading 层淡出
     loadingOverlay.style.opacity = 0;
 
@@ -266,24 +271,24 @@ document.getElementById("test").addEventListener("click", () => {
     const start = parseInt(document.getElementById("start").value);
     const end = parseInt(document.getElementById("end").value);
     //const count = parseInt(document.getElementById("count").value);
-            // 自动计算生成数量 (count)
-            const count = end - start + 1;
+    // 自动计算生成数量 (count)
+    const count = end - start + 1;
 
     // 检查输入是否有效
     if (isNaN(start) || isNaN(end) || isNaN(count) || start >= end || count <= 0) {
-        alert("请确保输入的范围和数量有效！");
+        alert("請確保輸入範圍有效！");
         return;
     }
 
     // 检查 WebSocket 是否已连接
     if (ws.readyState !== WebSocket.OPEN) {
-        alert("上传失败，请检查服务器连接！");
+        alert("上傳失敗，服務器可能尚未連接");
         return; // 阻止继续执行
     }
 
     // 检查 Unity 是否已连接
     if (!unityConnected) {
-        alert("上传失败，游戏尚未连接！");
+        alert("上傳失敗，遊戲可能尚未連接！");
         return; // 阻止继续执行
     }
 
