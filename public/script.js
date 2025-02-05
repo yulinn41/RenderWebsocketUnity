@@ -295,6 +295,8 @@ uploadButton.addEventListener("click", () => {
 // 清空畫布前先儲存狀態
 
     ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空原始畫布
+    offscreenCtx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height); // **同步清空 OffscreenCanvas**
+
 });
 
 // 工具函數：檢查 canvas 是否為空
