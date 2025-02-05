@@ -258,12 +258,14 @@ uploadButton.addEventListener("click", () => {
 
     if (ws.readyState !== WebSocket.OPEN) {
         alert("上傳失敗，請檢查伺服器連接！");
+        restoreCanvasState(); // 保留畫布
         return; // 阻止繼續執行
     }
 
     // 檢查 Unity 是否連接
     if (!unityConnected) {
         alert("上傳失敗，遊戲尚未連接！");
+        restoreCanvasState(); // 保留畫布
         return; // 阻止繼續執行
     }
     // 創建一個標準化的 canvas
@@ -290,7 +292,7 @@ uploadButton.addEventListener("click", () => {
     console.log("標準化圖片數據已發送:", imageData.substring(0, 20));
     isWaitingForQueue = true; // 等待伺服器回傳圖片數量
 // 清空畫布前先儲存狀態
-saveCanvasState();
+
     ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空原始畫布
 });
 
