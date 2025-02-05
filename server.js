@@ -83,7 +83,9 @@ wss.on("connection", (ws) => {
     });
 
     // 處理客戶端斷開連線
-    ws.on("close", () => {
+
+    ws.on("close", (code, reason) => {
+        console.log(`🔴 WebSocket 連線關閉 - 代碼: ${code}, 原因: ${reason}`);
         clearInterval(interval); // 清除心跳定時器
 
         if (ws === unitySocket) {
@@ -92,10 +94,10 @@ wss.on("connection", (ws) => {
             unityStatus = "Disconnected"; // 更新全局狀態
             broadcastToClients(`UnityStatus:${unityStatus}`); // 廣播 Unity 狀態
         } else {
-            console.log("普通客戶端已斷開");
+            console.log("Web客戶端已斷開");
         }
+        
     });
-
     // 錯誤處理
     ws.on("error", (err) => {
         console.error("WebSocket 錯誤:", err);
