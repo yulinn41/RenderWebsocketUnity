@@ -60,7 +60,7 @@ wss.on("connection", (ws) => {
                 const timeout = setTimeout(() => {
                     console.error("Unity 未回應，超時中止回呼");
                     ws.send("Unity 未回應，請稍後重試");
-                }, 5000); // 設置超時（例如 5 秒）
+                }, 1000); // 設置超時（例如 1 秒）
 
                 unitySocket.once("message", (unityMessage) => {
                     clearTimeout(timeout); // 清除超時

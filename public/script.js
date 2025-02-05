@@ -267,59 +267,59 @@ window.onload = function () {
         loadingOverlay.style.display = 'none';
     }, 500); // 等待过渡完成时间
 };
-document.getElementById("test").addEventListener("click", () => {
-    const start = parseInt(document.getElementById("start").value);
-    const end = parseInt(document.getElementById("end").value);
-    //const count = parseInt(document.getElementById("count").value);
-    // 自动计算生成数量 (count)
-    const count = end - start + 1;
+// document.getElementById("test").addEventListener("click", () => {
+//     const start = parseInt(document.getElementById("start").value);
+//     const end = parseInt(document.getElementById("end").value);
+//     //const count = parseInt(document.getElementById("count").value);
+//     // 自动计算生成数量 (count)
+//     const count = end - start + 1;
 
-    // 检查输入是否有效
-    if (isNaN(start) || isNaN(end) || isNaN(count) || start >= end || count <= 0) {
-        alert("請確保輸入範圍有效！");
-        return;
-    }
+//     // 检查输入是否有效
+//     if (isNaN(start) || isNaN(end) || isNaN(count) || start >= end || count <= 0) {
+//         alert("請確保輸入範圍有效！");
+//         return;
+//     }
 
-    // 检查 WebSocket 是否已连接
-    if (ws.readyState !== WebSocket.OPEN) {
-        alert("上傳失敗，服務器可能尚未連接");
-        return; // 阻止继续执行
-    }
+//     // 检查 WebSocket 是否已连接
+//     if (ws.readyState !== WebSocket.OPEN) {
+//         alert("上傳失敗，服務器可能尚未連接");
+//         return; // 阻止继续执行
+//     }
 
-    // 检查 Unity 是否已连接
-    if (!unityConnected) {
-        alert("上傳失敗，遊戲可能尚未連接！");
-        return; // 阻止继续执行
-    }
+//     // 检查 Unity 是否已连接
+//     if (!unityConnected) {
+//         alert("上傳失敗，遊戲可能尚未連接！");
+//         return; // 阻止继续执行
+//     }
 
-    // 计算生成编号的步进值
-    const step = (end - start) / (count - 1);
+//     // 计算生成编号的步进值
+//     const step = (end - start) / (count - 1);
 
-    for (let i = 0; i < count; i++) {
-        const number = Math.round(start + i * step); // 根据步进值计算当前编号
-        const color = `hsl(${(number * 36) % 360}, 100%, 50%)`;
+//     for (let i = 0; i < count; i++) {
+//         const number = Math.round(start + i * step); // 根据步进值计算当前编号
+//         const color = `hsl(${(number * 36) % 360}, 100%, 50%)`;
 
-        // 创建一个 Canvas
-        const canvas = document.createElement("canvas");
-        canvas.width = 500;
-        canvas.height = 500;
-        const ctx = canvas.getContext("2d");
+//         // 创建一个 Canvas
+//         const canvas = document.createElement("canvas");
+//         canvas.width = 500;
+//         canvas.height = 500;
+//         const ctx = canvas.getContext("2d");
 
-        // 填充背景色
-        ctx.fillStyle = color;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+//         // 填充背景色
+//         ctx.fillStyle = color;
+//         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 绘制编号
-        ctx.fillStyle = "white";
-        ctx.font = "bold 100px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(number, canvas.width / 2, canvas.height / 2);
+//         // 绘制编号
+//         ctx.fillStyle = "white";
+//         ctx.font = "bold 100px Arial";
+//         ctx.textAlign = "center";
+//         ctx.textBaseline = "middle";
+//         ctx.fillText(number, canvas.width / 2, canvas.height / 2);
 
-        // 获取 Canvas 的图片数据
-        const imageData = canvas.toDataURL("image/png");
-        ws.send(imageData); // 发送图片数据
-    }
+//         // 获取 Canvas 的图片数据
+//         const imageData = canvas.toDataURL("image/png");
+//         ws.send(imageData); // 发送图片数据
+//     }
 
-    alert(`已成功生成并发送 ${count} 张图片！`);
-});
+//     alert(`已成功生成并发送 ${count} 张图片！`);
+// });
