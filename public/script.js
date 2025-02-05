@@ -13,7 +13,7 @@ function connectWebSocket() {
 
     ws.onclose = () => {
         console.log("伺服器連接已斷開");
-        setTimeout(connectWebSocket, 5000); // 5 秒後嘗試重連
+        setTimeout(connectWebSocket, 1000); // 5 秒後嘗試重連
     };
 
     ws.onerror = (error) => {
