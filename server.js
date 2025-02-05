@@ -58,8 +58,8 @@ wss.on("connection", (ws) => {
                 console.log("圖片數據已發送到 Unity");
 
                 const timeout = setTimeout(() => {
-                    console.error("Unity 未回應，超時中止回呼");
-                    ws.send("Unity 未回應，請稍後重試");
+                    console.error("互動端未回應，超時中止回呼");
+                    ws.send("互動端未回應，請稍後重試");
                 }, 1000); // 設置超時（例如 1 秒）
 
                 unitySocket.once("message", (unityMessage) => {
