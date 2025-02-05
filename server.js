@@ -35,7 +35,7 @@ wss.on("connection", (ws) => {
         if (ws.readyState === WebSocket.OPEN) {
             ws.ping(); // 發送心跳信號
         }
-    }, 25000); // 每 25 秒發送一次心跳
+    }, 300000); // 每 5分鐘發送一次心跳
 
     ws.on("message", (message) => {
         const msgString = message.toString();
@@ -100,6 +100,12 @@ wss.on("connection", (ws) => {
     ws.on("error", (err) => {
         console.error("WebSocket 錯誤:", err);
     });
+    ws.on("pong", () => {
+        if (ws === unitySocket) {
+            console.log("收到 Unity Pong");
+        } 
+    });
+    
 });
 
 // 廣播消息給所有客戶端
