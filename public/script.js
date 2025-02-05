@@ -51,6 +51,39 @@ function connectWebSocket() {
 }
 
 connectWebSocket();
+
+// 創建 OffscreenCanvas 來保存畫布內容
+const offscreenCanvas = document.createElement("canvas");
+const offscreenCtx = offscreenCanvas.getContext("2d");
+
+// 初始化 OffscreenCanvas
+function setupCanvas() {
+    offscreenCanvas.width = canvas.width;
+    offscreenCanvas.height = canvas.height;
+}
+
+// 儲存 Canvas 畫布內容到 OffscreenCanvas
+function saveCanvasState() {
+    offscreenCtx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
+    offscreenCtx.drawImage(canvas, 0, 0);
+}
+
+// 恢復 Canvas 畫布內容 (當畫布被清空時自動回復)
+function restoreCanvasState() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(offscreenCanvas, 0, 0);
+}
+
+// **每次繪圖後，自動儲存畫布**
+canvas.addEventListener("mouseup", saveCanvasState);
+canvas.addEventListener("touchend", saveCanvasState);
+
+// **當瀏覽器畫面切換回來時，恢復畫布內容**
+window.addEventListener("focus", restoreCanvasState);
+
+// 初始化
+setupCanvas();
+
 // 點擊按鈕事件
 const uploadButton = document.getElementById("upload");
 
@@ -94,7 +127,8 @@ uploadButton.addEventListener("click", () => {
 
     console.log("標準化圖片數據已發送:", imageData.substring(0, 20));
     isWaitingForQueue = true; // 等待伺服器回傳圖片數量
-
+// 清空畫布前先儲存狀態
+saveCanvasState();
     ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空原始畫布
 });
 
