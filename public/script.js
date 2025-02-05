@@ -234,7 +234,6 @@ function saveCanvasState() {
 function restoreCanvasState() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(offscreenCanvas, 0, 0);
-    offscreenCtx.clearRect(0, 0, offscreenCanvas.width, offscreenCanvas.height); // **同步清空 OffscreenCanvas**
 }
 
 // **每次繪圖後，自動儲存畫布**
