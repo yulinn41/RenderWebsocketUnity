@@ -38,8 +38,8 @@ wss.on("connection", (ws) => {
     }, 300000); // 每 5分鐘發送一次心跳
 
     ws.on("message", (message) => {
-        const msgString = message.toString();
-        console.log("收到消息:", msgString);
+        //const msgString = message.toString();
+        //console.log("收到消息:", msgString);
 
         // 處理 Unity 連接
         if (msgString === "Unity") {
@@ -85,29 +85,31 @@ wss.on("connection", (ws) => {
     // 處理客戶端斷開連線
 
     ws.on("close", (code, reason) => {
-        console.log(`🔴 WebSocket 連線關閉 - 代碼: ${code}, 原因: ${reason}`);
+
         clearInterval(interval); // 清除心跳定時器
 
         if (ws === unitySocket) {
-            console.log("Unity 客戶端已斷開");
             unitySocket = null;
             unityStatus = "Disconnected"; // 更新全局狀態
             broadcastToClients(`UnityStatus:${unityStatus}`); // 廣播 Unity 狀態
+            console.log(`⚠️ Unity客戶端連線關閉 - 代碼: ${code}, 原因: ${reason}`);
+
         } else {
-            console.log("Web客戶端已斷開");
+            console.log(`🔴 Web客戶端連線關閉 - 代碼: ${code}, 原因: ${reason}`);
         }
-        
     });
+
     // 錯誤處理
     ws.on("error", (err) => {
         console.error("WebSocket 錯誤:", err);
     });
+    
     ws.on("pong", () => {
         if (ws === unitySocket) {
             console.log("收到 Unity Pong");
-        } 
+        }
     });
-    
+
 });
 
 // 廣播消息給所有客戶端
