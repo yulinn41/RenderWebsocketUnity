@@ -38,7 +38,7 @@ wss.on("connection", (ws) => {
     }, 300000); // 每 5分鐘發送一次心跳
 
     ws.on("message", (message) => {
-        //const msgString = message.toString();
+        const msgString = message.toString();
         //console.log("收到消息:", msgString);
 
         // 處理 Unity 連接
@@ -87,7 +87,9 @@ wss.on("connection", (ws) => {
     ws.on("close", (code, reason) => {
 
         clearInterval(interval); // 清除心跳定時器
-
+        if (code === 1006) {
+            console.error("⚠️ 1006 Abnormal Closure - 可能是網路問題或伺服器異常導致的非正常關閉");
+        }
         if (ws === unitySocket) {
             unitySocket = null;
             unityStatus = "Disconnected"; // 更新全局狀態
@@ -103,7 +105,7 @@ wss.on("connection", (ws) => {
     ws.on("error", (err) => {
         console.error("WebSocket 錯誤:", err);
     });
-    
+
     ws.on("pong", () => {
         if (ws === unitySocket) {
             console.log("收到 Unity Pong");
